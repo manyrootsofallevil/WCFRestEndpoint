@@ -35,7 +35,7 @@ namespace WcfJsonRestService
 
                     foreach (ServiceEndpoint sep in host.Description.Endpoints)
                     {
-
+                        
                         Console.WriteLine("endpoint: {0} - BindingType: {1}",
                                           sep.Address, sep.Binding.Name);
                     }
@@ -63,16 +63,19 @@ namespace WcfJsonRestService
 
             WebHttpBinding binding;
 
+
             if (useSSLTLS)
             {
 
                 binding = new WebHttpBinding(WebHttpSecurityMode.Transport);
                 binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
                 binding.HostNameComparisonMode = HostNameComparisonMode.WeakWildcard;
+                binding.CrossDomainScriptAccessEnabled = true;
             }
             else
             {
                 binding = new WebHttpBinding(WebHttpSecurityMode.None);
+                binding.CrossDomainScriptAccessEnabled = true;
             }
 
             // You must create an array of URI objects to have a base address.
@@ -80,9 +83,13 @@ namespace WcfJsonRestService
             Uri[] baseAddresses = new Uri[] { a };
 
             WebHttpBehavior behaviour = new WebHttpBehavior();
+      
+
             // Add an endpoint to the service. Insert the thumbprint of an X.509 
             // certificate found on your computer. 
             host.AddServiceEndpoint(typeof(IStoreUrls), binding, a).EndpointBehaviors.Add(behaviour);
+
+            
 
             if (useSSLTLS)
             {

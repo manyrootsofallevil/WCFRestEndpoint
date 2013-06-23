@@ -15,14 +15,17 @@ namespace WcfJsonRestService
     {
         [WebInvoke(Method = "GET",
                     ResponseFormat = WebMessageFormat.Json,
-                    UriTemplate = "store/{url}")]
-        public bool Store(string url)
+                   // UriTemplate="store/{url}")]
+                    UriTemplate = "store?page={url}")]
+        public string Store(string url)
         {
+            string originalurl = url.Replace("@@@@", "#").Replace('*', '.').Replace('@', '/').Replace('$', '?').Replace('£', '=').Replace('€', '#');
+
             string directory = ConfigurationManager.AppSettings["Directory"];
 
-            WebPage.Store(url.Replace("@@@@", "#").Replace('*', '.').Replace('@', '/').Replace('$', '?').Replace('£', '=').Replace('€', '#'));
+            WebPage.Store(originalurl);
 
-            return true;
+            return originalurl;
         }
 
     }

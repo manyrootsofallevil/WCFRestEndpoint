@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace WcfJsonRestService
 
         public static void Store(string url)
         {
-            Console.WriteLine("Storing: {0}.", url);
+            Trace.WriteLine(string.Format("Storing: {0}.", url));
 
             XDocument xdoc = null;
             string fileName = string.Format("{0}{1:yyyyMMdd}.xml", directory, DateTime.Now);
@@ -44,13 +45,13 @@ namespace WcfJsonRestService
 
             xdoc.Save(fileName);
 
-            Console.WriteLine("Stored: {0} on {1}.", url,fileName);
+            Trace.WriteLine(string.Format("Stored: {0} on {1}.", url, fileName));
         }
 
         private static Tuple<string, string> GetContent(string url)
         {
             HtmlWeb web = new HtmlWeb();
-            string title=string.Empty, content = string.Empty;
+            string title = string.Empty, content = string.Empty;
 
             try
             {
@@ -70,7 +71,7 @@ namespace WcfJsonRestService
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception processing {0}.\nEx:{1}.",url,ex);
+                Trace.WriteLine(string.Format("Exception processing {0}.\nEx:{1}.", url, ex));
             }
 
             return new Tuple<string, string>(title, content);

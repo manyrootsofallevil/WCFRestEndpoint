@@ -12,7 +12,7 @@ namespace WcfJsonRestService
     public interface IStoreUrls
     {
         [OperationContract]
-        bool Store(string url);
+        string Store(string url);
     }
 
 }
